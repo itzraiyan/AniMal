@@ -1,6 +1,6 @@
 # AniMal: AniList to MAL XML Exporter 🐾
 
-![Anime Export Tool](https://i.imgur.com/7m8LQiG.png)
+![Anime Export Tool](https://files.catbox.moe/o74pow.png)
 
 Convert your AniList anime/manga library to MAL-compatible XML files with this user-friendly CLI tool. Preserve your scores, progress, status, dates, and notes when migrating between platforms!
 
