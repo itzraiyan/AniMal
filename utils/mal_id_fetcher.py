@@ -1,13 +1,19 @@
 import requests
-from config.constants import MAL_USER_ID_API
+from config import constants
 from utils.cli_helpers import print_error
 
 def get_mal_id_from_username(username):
-    if not username: return "0"
+    if not username:
+        return "0"
+    
+    url = constants.MAL_USER_ID_API.format(username=username)
     try:
-        response = requests.get(MAL_USER_ID_API.format(username=username))
-        if response.status_code == 200:
-            return str(response.json()["data"]["id"])
+        resp = requests.get(url, timeout=10)
+        if resp.status_code == 200:
+            data = resp.json()
+            return str(data["data"]["id"])
+        else:
+            print_error(f"Could not fetch MAL user ID for '{username}' (HTTP {resp.status_code})")
     except Exception as e:
-        print_error(f"MAL ID fetch failed: {str(e)}")
+        print_error(f"Could not fetch MAL user ID: {e}")
     return "0"
