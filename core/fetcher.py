@@ -1,6 +1,8 @@
+# core/fetcher.py
 import requests
-from config.constants import ANILIST_API
-from utils.cli_helpers import print_error
+import sys
+from config import constants
+from utils.cli_helpers import print_error, print_success
 
 def get_user_id(username):
     query = '''
@@ -9,30 +11,48 @@ def get_user_id(username):
     }
     '''
     variables = {'name': username}
-    resp = requests.post(ANILIST_API, json={'query': query, 'variables': variables})
+    resp = requests.post(constants.ANILIST_API, json={'query': query, 'variables': variables})
     if resp.status_code == 200:
-        return resp.json()['data']['User']['id']
-    print_error(f"User '{username}' not found")
-    exit(1)
+        data = resp.json()
+        uid = data.get('data', {}).get('User', {}).get('id')
+        if uid:
+            return uid
+    print_error(f"Unable to find AniList user '{username}'.")
+    sys.exit(1)
 
 def fetch_list(user_id, media_type):
     query = '''
     query ($userId: Int, $type: MediaType) {
         MediaListCollection(userId: $userId, type: $type) {
-            lists { entries {
-                status score(format: POINT_10) progress progressVolumes
-                notes private
-                startedAt { year month day }
-                completedAt { year month day }
-                media { id idMal episodes chapters volumes title { romaji } }
-            }}
+            lists {
+                entries {
+                    status
+                    score(format: POINT_10)
+                    progress
+                    progressVolumes
+                    notes
+                    private
+                    startedAt { year month day }
+                    completedAt { year month day }
+                    media {
+                        id
+                        idMal
+                        episodes
+                        chapters
+                        volumes
+                        title { romaji }
+                    }
+                }
+            }
         }
     }
     '''
     variables = {'userId': user_id, 'type': media_type}
-    resp = requests.post(ANILIST_API, json={'query': query, 'variables': variables})
+    resp = requests.post(constants.ANILIST_API, json={'query': query, 'variables': variables})
     if resp.status_code == 200:
-        lists = resp.json()["data"]["MediaListCollection"]["lists"]
-        return [entry for lst in lists for entry in lst["entries"]]
-    print_error(f"Failed to fetch {media_type} list")
-    exit(1)
+        data = resp.json()
+        lists = data["data"]["MediaListCollection"]["lists"]
+        entries = [entry for lst in lists for entry in lst["entries"]]
+        return entries
+    print_error(f"Failed to fetch {media_type} list from AniList.")
+    sys.exit(1)
