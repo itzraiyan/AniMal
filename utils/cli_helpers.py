@@ -1,5 +1,4 @@
 import os
-import random
 import textwrap
 from colorama import Fore, Style, init as colorama_init
 from config import constants
@@ -7,59 +6,63 @@ from config import constants
 # Initialize colorama
 colorama_init(autoreset=True)
 
-def get_terminal_width(default=80):
-    """Get terminal width dynamically with fallback"""
+def get_terminal_width():
+    """Get terminal width with fallback"""
     try:
         return os.get_terminal_size().columns
     except OSError:
-        return default
+        return 80  # Default width
 
 def color_text(text, color):
     return getattr(Fore, color.upper(), "") + text + Style.RESET_ALL
 
 def print_help(helpmsg):
-    """Print responsive help text for Termux"""
+    """Print clean help text without distortion"""
     # Get terminal width
-    width = min(100, get_terminal_width() - 4)
+    width = min(80, get_terminal_width())
     
-    # Create border
-    border = "━" * (width - 2)
-    top_border = f"┏{border}┓"
-    bottom_border = f"┗{border}┛"
+    # Split into sections
+    sections = helpmsg.strip().split('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
     
-    # Print help with responsive wrapping
-    print(color_text(top_border, "CYAN"))
-    for paragraph in helpmsg.strip().split('\n\n'):
-        wrapped = textwrap.fill(
-            paragraph, 
-            width=width,
-            replace_whitespace=False
-        )
-        for line in wrapped.split('\n'):
-            print(color_text(f"┃ {line.ljust(width-2)} ┃", "CYAN"))
-    print(color_text(bottom_border, "CYAN"))
+    # Print top border
+    print(color_text("┌" + "─" * (width-2) + "┐", "CYAN"))
+    
+    for section_idx, section in enumerate(sections):
+        # Process each line in section
+        lines = section.split('\n')
+        for line in lines:
+            # Wrap long lines
+            wrapped = textwrap.wrap(line, width=width-4)
+            if not wrapped:
+                wrapped = [""]
+                
+            for wline in wrapped:
+                # Pad and print each line
+                padded = wline.ljust(width-4)
+                print(color_text(f"│ {padded} │", "CYAN"))
+        
+        # Add separator between sections
+        if section_idx < len(sections) - 1:
+            print(color_text("├" + "─" * (width-2) + "┤", "CYAN"))
+    
+    # Print bottom border
+    print(color_text("└" + "─" * (width-2) + "┘", "CYAN"))
 
 def boxed_text(text, color="WHITE", width=None):
-    """Responsive boxed text for Termux"""
+    """Clean boxed text without distortion"""
     if width is None:
         width = min(60, get_terminal_width() - 10)
     
-    lines = []
-    for paragraph in text.split('\n'):
-        lines.extend(textwrap.wrap(paragraph, width=width) or [''])
-    
-    if not lines:
-        lines = ['']
-        
+    lines = textwrap.wrap(text, width=width) or ['']
     maxlen = max(len(line) for line in lines)
+    
     top = '┌' + '─' * (maxlen + 2) + '┐'
     bot = '└' + '─' * (maxlen + 2) + '┘'
     mid = [f"│ {line.ljust(maxlen)} │" for line in lines]
-    box = [top] + mid + [bot]
-    return color_text('\n'.join(box), color)
+    
+    return color_text('\n'.join([top] + mid + [bot]), color)
 
 def prompt_boxed(msg, default=None, color="MAGENTA", width=None, helpmsg=None):
-    """Prompt with responsive help for Termux"""
     while True:
         prompt_str = f"{msg}" + (f" [{default}]" if default else "")
         print(boxed_text(prompt_str, color, width))
