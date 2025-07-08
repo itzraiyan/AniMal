@@ -17,20 +17,20 @@ from utils.mal_id_fetcher import get_mal_id_from_username
 def main():
     ensure_output_dir()
     print_banner()
-    print_info("Welcome to AniMal!\nExport your AniList to MAL XML with style.")
+    print_info("Welcome to AniMal! Type '-help' for assistance.")
 
     username = None
     while not username:
         username = prompt_boxed(
-            "Enter AniList username (type '-help' for help)",
+            "Enter AniList username (type '-help' for guide)",
             color="CYAN",
             helpmsg=HELP_TEXT
         )
 
     mal_username = prompt_boxed(
-        "Enter your MyAnimeList (MAL) username (optional):",
+        "Enter MAL username (optional, type '-help' for guide)",
         color="MAGENTA",
-        helpmsg="Used for XML compatibility. Leave blank if not needed.",
+        helpmsg=HELP_TEXT,
         default=""
     )
     my_id = get_mal_id_from_username(mal_username)
@@ -45,18 +45,18 @@ def main():
 
     print(boxed_text("Export options:\n1: Anime\n2: Manga\n3: Both", "MAGENTA"))
     choice = prompt_boxed(
-        "Choose export type (1/2/3)",
+        "Choose export type (1/2/3, type '-help' for guide)",
         default="3",
         color="CYAN",
         helpmsg=HELP_TEXT
     )
 
     statuses = None
-    if prompt_boxed("Filter by status? (y/N)", default="N", color="YELLOW").lower() == "y":
+    if prompt_boxed("Filter by status? (y/N, type '-help' for guide)", default="N", color="YELLOW").lower() == "y":
         status_input = prompt_boxed(
-            "Enter status(es) (e.g. 1 3 or COMPLETED)",
+            "Enter status(es) (type '-help' for guide)",
             color="YELLOW",
-            helpmsg="Separate multiple statuses with spaces/commas"
+            helpmsg=HELP_TEXT
         )
         statuses = get_status_codes(status_input)
 
