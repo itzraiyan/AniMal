@@ -1,8 +1,7 @@
 # main.py
-import sys
 import os
 from utils.io_helpers import ensure_output_dir
-from utils.cli_helpers import print_banner, print_outro, print_info, print_success, prompt_boxed
+from utils.cli_helpers import print_banner, print_outro, print_info, print_success, prompt_boxed, boxed_text  # ADDED boxed_text here
 from utils.mal_id_fetcher import get_mal_id_from_username
 from core.fetcher import get_user_id, fetch_list
 from core.utils import HELP_TEXT, show_status_grid, get_status_codes, filter_entries, print_stats
@@ -36,7 +35,9 @@ def main():
     user_id = get_user_id(username)
     print_success(f"AniList user ID for {username} is {user_id}")
 
-    print(prompt_boxed.boxed_text("Export options:\n1: Anime only\n2: Manga only\n3: Both anime and manga", "MAGENTA"))
+    # FIXED: Call boxed_text directly instead of prompt_boxed.boxed_text
+    print(boxed_text("Export options:\n1: Anime only\n2: Manga only\n3: Both anime and manga", "MAGENTA"))
+    
     choice = None
     while choice not in ["1", "2", "3"]:
         choice = prompt_boxed(
