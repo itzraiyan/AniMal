@@ -25,8 +25,8 @@ sudo apt update
 sudo apt install python3 python3-pip git
 
 # 2. Clone the repository
-git clone https://github.com/yourusername/anilist-to-mal-exporter.git
-cd anilist-to-mal-exporter
+git clone https://github.com/itzraiyan/AniMal.git
+cd AniMal
 
 # 3. Install Python dependencies
 pip3 install colorama requests
@@ -43,8 +43,8 @@ pkg update
 pkg install python git
 
 # 2. Clone the repository
-git clone https://github.com/yourusername/anilist-to-mal-exporter.git
-cd anilist-to-mal-exporter
+git clone https://github.com/itzraiyan/AniMal.git
+cd AniMal
 
 # 3. Install Python dependencies
 pip install colorama requests
