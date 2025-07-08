@@ -1,94 +1,64 @@
-import os
-import random  # ADDED MISSING IMPORT
+# utils/cli_helpers.py
 import textwrap
-from colorama import Fore, Style, init as colorama_init
+import random
 from config import constants
 
-# Initialize colorama
-colorama_init(autoreset=True)
-
-def get_terminal_width():
-    """Get terminal width with fallback"""
-    try:
-        return os.get_terminal_size().columns
-    except OSError:
-        return 80  # Default width
+try:
+    from colorama import Fore, Style, init as colorama_init
+    colorama_init(autoreset=True)
+except ImportError:
+    class F:
+        RED = GREEN = YELLOW = CYAN = MAGENTA = WHITE = RESET = ""
+    Fore = Style = F
 
 def color_text(text, color):
     return getattr(Fore, color.upper(), "") + text + Style.RESET_ALL
 
-def print_help(helpmsg):
-    """Print clean help text without distortion"""
-    # Get terminal width
-    width = min(80, get_terminal_width())
-    
-    # Split into sections
-    sections = helpmsg.strip().split('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n')
-    
-    # Print top border
-    print(color_text("┌" + "─" * (width-2) + "┐", "CYAN"))
-    
-    for section_idx, section in enumerate(sections):
-        # Process each line in section
-        lines = section.split('\n')
-        for line in lines:
-            # Wrap long lines
-            wrapped = textwrap.wrap(line, width=width-4)
-            if not wrapped:
-                wrapped = [""]
-                
-            for wline in wrapped:
-                # Pad and print each line
-                padded = wline.ljust(width-4)
-                print(color_text(f"│ {padded} │", "CYAN"))
-        
-        # Add separator between sections
-        if section_idx < len(sections) - 1:
-            print(color_text("├" + "─" * (width-2) + "┤", "CYAN"))
-    
-    # Print bottom border
-    print(color_text("└" + "─" * (width-2) + "┘", "CYAN"))
-
-def boxed_text(text, color="WHITE", width=None):
-    """Clean boxed text without distortion"""
-    if width is None:
-        width = min(60, get_terminal_width() - 10)
-    
-    lines = textwrap.wrap(text, width=width) or ['']
+def boxed_text(text, color="WHITE", width=60):
+    lines = []
+    for paragraph in text.split('\n'):
+        lines.extend(textwrap.wrap(paragraph, width=width) or [''])
+    if not lines:
+        lines = ['']
     maxlen = max(len(line) for line in lines)
-    
     top = '┌' + '─' * (maxlen + 2) + '┐'
     bot = '└' + '─' * (maxlen + 2) + '┘'
     mid = [f"│ {line.ljust(maxlen)} │" for line in lines]
-    
-    return color_text('\n'.join([top] + mid + [bot]), color)
+    box = [top] + mid + [bot]
+    return color_text('\n'.join(box), color)
 
-def prompt_boxed(msg, default=None, color="MAGENTA", width=None, helpmsg=None):
+def prompt_boxed(msg, default=None, color="MAGENTA", width=60, helpmsg=None):
     while True:
         prompt_str = f"{msg}" + (f" [{default}]" if default else "")
         print(boxed_text(prompt_str, color, width))
         val = input("> ").strip()
-        if val.lower() in ["-help", "--help", "help", "-h", "?"]:
-            if helpmsg:
-                print_help(helpmsg)
+        if val.lower() == "-help" and helpmsg:
+            print(boxed_text(helpmsg, "CYAN", width))
             continue
         return val if val else default
 
 def confirm_overwrite(filename):
     print(boxed_text(
-        f"File '{filename}' exists.\nOverwrite? (y/N)", "YELLOW"
+        f"File '{filename}' already exists.\nOverwrite? (y/N)", "YELLOW", width=60
     ))
     ans = input("> ").strip().lower()
     return ans == 'y'
 
+def print_progress_bar(iterable, desc):
+    try:
+        from tqdm import tqdm
+        return tqdm(iterable, desc=desc, unit="item")
+    except ImportError:
+        return iterable
+
 def print_error(msg):
-    print(boxed_text("Error: " + msg, "RED"))
+    print(boxed_text("Error: " + msg, "RED", width=60))
 
 def print_success(msg):
-    print(boxed_text(msg, "GREEN"))
+    print(boxed_text(msg, "GREEN", width=60))
 
 def print_info(msg):
-    print(boxed_text(msg, "CYAN"))
+    print(boxed_text(msg, "CYAN", width=60))
 
 def print_banner():
     print(color_text(random.choice(constants.ASCII_BANNERS), "CYAN"))
