@@ -1,117 +1,73 @@
-# core/utils.py
+# utils/cli_helpers.py
+import textwrap
+import random
 from config import constants
 
-def show_status_grid():
-    grid = "Num | Status      | Description\n"
-    grid += "----+------------+-------------------------\n"
-    for i, (status, desc) in enumerate(constants.STATUS_LIST):
-        grid += f"{i+1:<3} | {status:<10} | {desc}\n"
-    return grid
+try:
+    from colorama import Fore, Style, init as colorama_init
+    colorama_init(autoreset=True)
+except ImportError:
+    class F:
+        RED = GREEN = YELLOW = CYAN = MAGENTA = WHITE = RESET = ""
+    Fore = Style = F
 
-def get_status_codes(input_str):
-    results = set()
-    tokens = [tok.strip() for tok in input_str.replace(',', ' ').split() if tok.strip()]
-    for tok in tokens:
-        if tok.isdigit():
-            idx = int(tok) - 1
-            if 0 <= idx < len(constants.STATUS_LIST):
-                results.add(constants.STATUS_LIST[idx][0])
-        else:
-            for code, _ in constants.STATUS_LIST:
-                if tok.upper() == code:
-                    results.add(code)
-    return list(results)
+def color_text(text, color):
+    return getattr(Fore, color.upper(), "") + text + Style.RESET_ALL
 
-def filter_entries(entries, statuses=None, title=None):
-    filtered = []
-    for entry in entries:
-        if statuses and entry.get("status") not in statuses:
+def boxed_text(text, color="WHITE", width=60):
+    lines = []
+    for paragraph in text.split('\n'):
+        lines.extend(textwrap.wrap(paragraph, width=width) or [''])
+    if not lines:
+        lines = ['']
+    maxlen = max(len(line) for line in lines)
+    top = '┌' + '─' * (maxlen + 2) + '┐'
+    bot = '└' + '─' * (maxlen + 2) + '┘'
+    mid = [f"│ {line.ljust(maxlen)} │" for line in lines]
+    box = [top] + mid + [bot]
+    return color_text('\n'.join(box), color)
+
+def prompt_boxed(msg, default=None, color="MAGENTA", width=60, helpmsg=None):
+    while True:
+        prompt_str = f"{msg}" + (f" [{default}]" if default else "")
+        print(boxed_text(prompt_str, color, width))
+        val = input("> ").strip()
+        if val.lower() == "-help" and helpmsg:
+            print(boxed_text(helpmsg, "CYAN", width))
             continue
-        if title and title.lower() not in entry.get("media", {}).get("title", {}).get("romaji", "").lower():
-            continue
-        filtered.append(entry)
-    return filtered
+        return val if val else default
 
-HELP_TEXT = (
-    "╭───────────────────────────────────────────────────────╮\n"
-    "│              AniMal - AniList to MAL Exporter         │\n"
-    "├───────────────────────────────────────────────────────┤\n"
-    "│ At any prompt, type '-help' to see this guide again   │\n"
-    "│                                                       │\n"
-    "│ 1. AniList Username:                                  │\n"
-    "│    • Required to fetch your anime/manga list          │\n"
-    "│                                                       │\n"
-    "│ 2. MAL Username (optional):                           │\n"
-    "│    • For better XML compatibility                     │\n"
-    "│    • If blank:                                        │\n"
-    "│        - Anime: Uses '0' as user ID                   │\n"
-    "│        - Manga: Leaves user ID blank                  │\n"
-    "│                                                       │\n"
-    "│ 3. Export Type:                                       │\n"
-    "│    • 1: Anime only                                    │\n"
-    "│    • 2: Manga only                                    │\n"
-    "│    • 3: Both                                          │\n"
-    "│                                                       │\n"
-    "│ 4. Filter Options:                                    │\n"
-    "│    a. Status Filter:                                  │\n"
-    "│       • Select multiple statuses by number or name    │\n"
-    "│       • Example: '1 3' or 'COMPLETED,PLANNING'        │\n"
-    "│       • Available statuses:                           │\n"
-    + show_status_grid() +
-    "│                                                       │\n"
-    "│    b. Title Substring Filter:                         │\n"
-    "│       • Enter text to match in titles                 │\n"
-    "│       • Case-insensitive partial matching             │\n"
-    "│       • Examples:                                     │\n"
-    "│           - 'naruto' matches:                         │\n"
-    "│               • Naruto Shippuden                      │\n"
-    "│               • Boruto: Naruto Next Generations       │\n"
-    "│           - 'one' matches:                            │\n"
-    "│               • One Piece                             │\n"
-    "│               • One Punch Man                         │\n"
-    "│       • Useful for exporting specific series          │\n"
-    "│                                                       │\n"
-    "│ 5. Output:                                            │\n"
-    "│    • Files saved in ./output/ directory               │\n"
-    "│    • Format: <username>_<type>.xml                    │\n"
-    "│    • Existing files prompt for overwrite confirmation │\n"
-    "│                                                       │\n"
-    "│ Tips for Termux:                                      │\n"
-    "│ • Rotate device for wider view                        │\n"
-    "│ • Pinch-zoom to adjust text size                      │\n"
-    "│ • Filtering speeds up large list exports              │\n"
-    "╰───────────────────────────────────────────────────────╯\n"
-    "Enjoy using AniMal! 🐾\n"
-)
+def confirm_overwrite(filename):
+    print(boxed_text(
+        f"File '{filename}' already exists.\nOverwrite? (y/N)", "YELLOW", width=60
+    ))
+    ans = input("> ").strip().lower()
+    return ans == 'y'
 
-def format_date(d):
-    if not d or not d.get("year"):
-        return "0000-00-00"
-    year, month, day = d.get("year", 0), d.get("month", 0), d.get("day", 0)
-    return f"{year:04d}-{month or 0:02d}-{day or 0:02d}"
+def print_progress_bar(iterable, desc):
+    try:
+        from tqdm import tqdm
+        return tqdm(iterable, desc=desc, unit="item")
+    except ImportError:
+        return iterable
 
-def anilist_status_to_mal(status, media):
-    if status == "COMPLETED": return "Completed"
-    if status == "CURRENT": return "Watching" if media == "anime" else "Reading"
-    if status == "DROPPED": return "Dropped"
-    if status == "PAUSED": return "On-Hold"
-    if status == "PLANNING": return "Plan to Watch" if media == "anime" else "Plan to Read"
-    if status == "REPEATING": return "Watching" if media == "anime" else "Reading"
-    return ""
+def print_error(msg):
+    print(boxed_text("Error: " + msg, "RED", width=60))
 
-def print_stats(entries, kind):
-    if not entries:
-        from utils.cli_helpers import print_info
-        print_info(f"No {kind} entries to analyze.")
-        return
-    scores = [e.get("score") for e in entries if e.get("score")]
-    statuses = {}
-    for e in entries:
-        st = e.get("status")
-        statuses[st] = statuses.get(st, 0) + 1
-    mean_score = f"{sum(scores)/len(scores):.2f}" if scores else "N/A"
-    from utils.cli_helpers import print_info, color_text
-    print_info(f"Stats for {kind}:")
-    for st, count in statuses.items():
-        print(color_text(f"{st}: {count}", "yellow"))
-    print(color_text(f"Mean Score: {mean_score}", "blue"))
+def print_success(msg):
+    print(boxed_text(msg, "GREEN", width=60))
+
+def print_info(msg):
+    print(boxed_text(msg, "CYAN", width=60))
+
+def print_banner():
+    banner = random.choice(constants.ASCII_BANNERS)
+    print(color_text(banner, "CYAN"))
+
+def print_outro():
+    outro_text = "\n".join([
+        "Thanks for using AniMal! 🐾",
+        "Follow your anime dreams!",
+        random.choice(constants.QUOTES)
+    ])
+    print(color_text(outro_text, "YELLOW"))
