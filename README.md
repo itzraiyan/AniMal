@@ -63,7 +63,7 @@ python main.py
 2. **Enter your AniList username** when prompted:
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Enter AniList username (type '-help' for help)           │
+   │ Enter AniList username (type '-help' for help)							 │
    └──────────────────────────────────────────────────────────┘
    > your_anilist_username
    ```
@@ -71,7 +71,7 @@ python main.py
 3. **Optionally enter your MAL username** for better XML compatibility:
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Enter your MyAnimeList (MAL) username (optional):        │
+   │ Enter your MyAnimeList (MAL) username (optional):        				 │
    └──────────────────────────────────────────────────────────┘
    > your_mal_username
    ```
@@ -79,10 +79,10 @@ python main.py
 4. **Choose export type** (1=Anime, 2=Manga, 3=Both):
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Export options:                                          │
-   │ 1: Anime only                                            │
-   │ 2: Manga only                                            │
-   │ 3: Both anime and manga                                  │
+   │ Export options:                                       				    │
+   │ 1: Anime only                                           				 │
+   │ 2: Manga only                                         				    │
+   │ 3: Both anime and manga                               				    │
    └──────────────────────────────────────────────────────────┘
    > 3
    ```
@@ -90,12 +90,12 @@ python main.py
 5. **Apply filters if desired**:
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Filter by status? (y/N) [N]                              │
+   │ Filter by status? (y/N) [N]                              				 │
    └──────────────────────────────────────────────────────────┘
    > y
    
    ┌──────────────────────────────────────────────────────────┐
-   │ Enter AniList status(es) (numbers/words)                 │
+   │ Enter AniList status(es) (numbers/words)               			    │
    └──────────────────────────────────────────────────────────┘
    > 1 3 5  # COMPLETED, DROPPED, PLANNING
    ```
