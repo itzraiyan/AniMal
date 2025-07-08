@@ -4,14 +4,14 @@
 
 Convert your AniList anime/manga library to MAL-compatible XML files with this user-friendly CLI tool. Preserve your scores, progress, status, dates, and notes when migrating between platforms!
 
-**Note**: This project includes AI-generated components, but the core idea and structure are fully created and designed by the original author.
+> **Note**: This project includes AI-generated components, but the core idea and structure are fully created and designed by the original author.
 
 ## ✨ Features
 
 - 🎨 **Colorful terminal interface** with ASCII art banners
 - 🔍 **Filter by status/title** - Export only specific entries
-- 📊 **Collection statistics** - See average scores and status distribution
-- 🔄 **Overwrite protection** - Never lose data accidentally
+- 📊 **Collection statistics** - View average scores and status distribution
+- 🔄 **Overwrite protection** - Prevent accidental data loss
 - 📦 **Zero configuration** - Just run and follow prompts
 - 🐍 **Pure Python** - No complex dependencies required
 
@@ -24,7 +24,7 @@ Convert your AniList anime/manga library to MAL-compatible XML files with this u
 sudo apt update
 sudo apt install python3 python3-pip git
 
-# 2. Clone the repository
+#  ascended# 2. Clone the repository
 git clone https://github.com/itzraiyan/AniMal.git
 cd AniMal
 
@@ -63,7 +63,7 @@ python main.py
 2. **Enter your AniList username** when prompted:
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Enter AniList username (type '-help' for help)							 │
+   │ Enter AniList username (type '-help' for help)           │
    └──────────────────────────────────────────────────────────┘
    > your_anilist_username
    ```
@@ -71,7 +71,7 @@ python main.py
 3. **Optionally enter your MAL username** for better XML compatibility:
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Enter your MyAnimeList (MAL) username (optional):        				 │
+   │ Enter your MyAnimeList (MAL) username (optional):        │
    └──────────────────────────────────────────────────────────┘
    > your_mal_username
    ```
@@ -79,10 +79,10 @@ python main.py
 4. **Choose export type** (1=Anime, 2=Manga, 3=Both):
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Export options:                                       				    │
-   │ 1: Anime only                                           				 │
-   │ 2: Manga only                                         				    │
-   │ 3: Both anime and manga                               				    │
+   │ Export options:                                         │
+   │ 1: Anime only                                           │
+   │ 2: Manga only                                          │
+   │ 3: Both anime and manga                                │
    └──────────────────────────────────────────────────────────┘
    > 3
    ```
@@ -90,12 +90,12 @@ python main.py
 5. **Apply filters if desired**:
    ```
    ┌──────────────────────────────────────────────────────────┐
-   │ Filter by status? (y/N) [N]                              				 │
+   │ Filter by status? (y/N) [N]                             │
    └──────────────────────────────────────────────────────────┘
    > y
-   
+
    ┌──────────────────────────────────────────────────────────┐
-   │ Enter AniList status(es) (numbers/words)               			    │
+   │ Enter AniList status(es) (numbers/words)                │
    └──────────────────────────────────────────────────────────┘
    > 1 3 5  # COMPLETED, DROPPED, PLANNING
    ```
@@ -109,18 +109,18 @@ python main.py
 ## 🧩 File Structure
 
 ```
-anilist-to-mal-exporter/
-├── core/           # Business logic
-│   ├── fetcher.py     # Data fetching from AniList API
-│   ├── utils.py       # Helper functions and status mapping
-│   └── xml_builder.py # XML generation for MAL format
-├── utils/          # Utility modules
-│   ├── cli_helpers.py  # Colorful terminal interface
-│   └── io_helpers.py   # File operations and output handling
-├── config/         # Configuration
-│   └── constants.py   # API endpoints, status lists, ASCII art
-├── main.py         # Entry point
-└── README.md       # This documentation
+AniMal/
+├── core/                    # Business logic
+│   ├── fetcher.py           # Data fetching from AniList API
+│   ├── utils.py             # Helper functions and status mapping
+│   └── xml_builder.py       # XML generation for MAL format
+├── utils/                   # Utility modules
+│   ├── cli_helpers.py       # Colorful terminal interface
+│   └── io_helpers.py        # File operations and output handling
+├── config/                  # Configuration
+│   └── constants.py         # API endpoints, status lists, ASCII art
+├── main.py                  # Entry point
+└── README.md                # This documentation
 ```
 
 ## ❓ Frequently Asked Questions
@@ -129,19 +129,19 @@ anilist-to-mal-exporter/
 A: When switching from AniList to MyAnimeList (or vice versa), this tool preserves your library data in a format MAL can import.
 
 **Q: What data gets exported?**  
-A: We export:
+A: The following data is exported:
 - Titles
 - Scores (1-10 scale)
 - Progress (episodes/chapters read)
-- Status (watching/completed/etc)
+- Status (watching, completed, etc.)
 - Start/end dates
 - Personal notes
 
 **Q: Is my AniList password required?**  
-A: No! We only need your public username to access your public profile.
+A: No! Only your public username is needed to access your public profile.
 
 **Q: Can I run this on Windows?**  
-A: Yes! Install Python from [python.org](https://python.org) and follow the Linux instructions.
+A: Yes! Install Python from [python.org](https://www.python.org) and follow the Linux instructions.
 
 ## 🤝 Contributing
 
@@ -159,4 +159,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Happy exporting!** ✨ If you enjoy this tool, please consider starring the repository on GitHub!
+**Happy exporting!** ✨ If you enjoy this tool, please consider starring the repository on [GitHub](https://github.com/itzraiyan/AniMal)!
