@@ -74,40 +74,42 @@ QUOTES = [
 ]
 # Responsive Help Text
 HELP_TEXT = """
-AniMal - AniList to MAL XML Exporter
+AniMal: AniList to MAL XML Exporter
 
 Export your AniList library to MAL XML format.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💻 USAGE:
+💻 USAGE
 1. Enter AniList username
 2. Enter MAL username (optional)
-3. Choose export type (1=Anime, 2=Manga, 3=Both)
+3. Choose export type:
+   - 1 = Anime only
+   - 2 = Manga only
+   - 3 = Both
 4. Apply filters if needed
 5. XML files saved in /output
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔍 STATUS FILTERING:
-Use numbers or names, separate with spaces/commas
-
-1. COMPLETED  - Finished
-2. CURRENT    - Watching/Reading
-3. DROPPED    - Dropped
-4. PAUSED     - On-Hold
-5. PLANNING   - Plan to Watch/Read
-6. REPEATING  - Rewatching/Rereading
+🔍 STATUS FILTERING
+Use numbers or names, separate with spaces/commas:
+1. COMPLETED - Finished
+2. CURRENT   - Watching/Reading
+3. DROPPED   - Dropped
+4. PAUSED    - On-Hold
+5. PLANNING  - Plan to Watch/Read
+6. REPEATING - Rewatching/Rereading
 
 Examples:
   "1 3 5" 
-  "COMPLETED, DROPPED"
+  "COMPLETED,DROPPED"
   "current planning"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔧 TROUBLESHOOTING:
+🔧 TROUBLESHOOTING
 • User not found? Check spelling
 • No entries? Try different filters
 • Install missing packages:
   pip install colorama requests
 
-Type '-help' at any prompt for this guide.
+Type '-help' at any prompt for guide
 """
