@@ -1,4 +1,5 @@
 import os
+import random  # ADDED MISSING IMPORT
 import textwrap
 from colorama import Fore, Style, init as colorama_init
 from config import constants
