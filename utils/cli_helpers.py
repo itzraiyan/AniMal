@@ -1,55 +1,59 @@
 import random
 import textwrap
-from config.constants import ASCII_BANNERS, QUOTES
+from colorama import Fore, Style, init as colorama_init
+from config import constants
 
-try:
-    from colorama import Fore, Style, init
-    init(autoreset=True)
-except ImportError:
-    class DummyColors:
-        RED = GREEN = YELLOW = CYAN = MAGENTA = WHITE = RESET = ""
-    Fore = Style = DummyColors()
+# Initialize colorama
+colorama_init(autoreset=True)
 
 def color_text(text, color):
-    return getattr(Fore, color.upper()) + text + Style.RESET_ALL
+    return getattr(Fore, color.upper(), "") + text + Style.RESET_ALL
 
 def boxed_text(text, color="WHITE", width=60):
-    lines = textwrap.wrap(text, width=width) or ['']
-    max_len = max(len(line) for line in lines)
-    border = '─' * (max_len + 2)
-    box = [
-        f"┌{border}┐",
-        *[f"│ {line.ljust(max_len)} │" for line in lines],
-        f"└{border}┘"
-    ]
+    lines = []
+    for paragraph in text.split('\n'):
+        lines.extend(textwrap.wrap(paragraph, width=width) or [''])
+    if not lines:
+        lines = ['']
+    maxlen = max(len(line) for line in lines)
+    top = '┌' + '─' * (maxlen + 2) + '┐'
+    bot = '└' + '─' * (maxlen + 2) + '┘'
+    mid = [f"│ {line.ljust(maxlen)} │" for line in lines]
+    box = [top] + mid + [bot]
     return color_text('\n'.join(box), color)
 
 def prompt_boxed(msg, default=None, color="MAGENTA", width=60, helpmsg=None):
     while True:
-        full_msg = f"{msg}{f' [{default}]' if default else ''}"
-        print(boxed_text(full_msg, color, width))
-        user_input = input("> ").strip()
-        if user_input == "-help" and helpmsg:
+        prompt_str = f"{msg}" + (f" [{default}]" if default else "")
+        print(boxed_text(prompt_str, color, width))
+        val = input("> ").strip()
+        if val.lower() == "-help" and helpmsg:
             print(boxed_text(helpmsg, "CYAN", width))
             continue
-        return user_input or default
+        return val if val else default
 
 def confirm_overwrite(filename):
-    print(boxed_text(f"Overwrite {filename}? (y/N)", "YELLOW"))
-    return input("> ").lower() == 'y'
+    print(boxed_text(
+        f"File '{filename}' already exists.\nOverwrite? (y/N)", "YELLOW", width=60
+    ))
+    ans = input("> ").strip().lower()
+    return ans == 'y'
 
-def print_error(msg): print(boxed_text(f"ERROR: {msg}", "RED"))
-def print_success(msg): print(boxed_text(msg, "GREEN"))
-def print_info(msg): print(boxed_text(msg, "CYAN"))
+def print_error(msg):
+    print(boxed_text("Error: " + msg, "RED", width=60))
+
+def print_success(msg):
+    print(boxed_text(msg, "GREEN", width=60))
+
+def print_info(msg):
+    print(boxed_text(msg, "CYAN", width=60))
 
 def print_banner():
-    banner = random.choice(ASCII_BANNERS)
-    print(color_text(banner, "CYAN"))
+    print(color_text(random.choice(constants.ASCII_BANNERS), "CYAN"))
 
 def print_outro():
-    outro = [
+    print(color_text("\n".join([
         "Thanks for using AniMal! 🐾",
         "Follow your anime dreams!",
-        random.choice(QUOTES)
-    ]
-    print(color_text('\n'.join(outro), "YELLOW"))
+        random.choice(constants.QUOTES)
+    ]), "YELLOW"))
