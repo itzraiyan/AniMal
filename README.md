@@ -1,21 +1,27 @@
 # AniMal: AniList to MAL XML Exporter 🐾
 
-![Anime Export Tool](https://files.catbox.moe/o74pow.png)
+![AniMal Banner](https://files.catbox.moe/o74pow.png)
 
-Effortlessly migrate your AniList anime and manga library to MyAnimeList (MAL) with this streamlined, user-friendly CLI tool! AniMal converts your AniList data into MAL-compatible XML files—preserving your scores, progress, status, dates, and notes for a seamless transition.
 
 > **Note:** This project utilizes some AI-generated components, but the core idea, design, and structure are entirely crafted by the original author.
 
 ---
 
+AniMal is a friendly Python command-line tool that helps you export your AniList anime and manga library to MyAnimeList (MAL) XML files. It preserves your scores, progress, statuses, dates, and personal notes for seamless importing to MAL.
+
+Whether you're switching platforms, keeping a backup, or just want more control over your list, AniMal makes the process easy and transparent.
+
+---
+
 ## ✨ Features
 
-- 🎨 **Vivid terminal interface** with stylish ASCII art banners
-- 🔍 **Smart filtering** — Export only specific entries by status or title
-- 📊 **Collection stats** — Instantly see averages and status breakdowns
-- 🔄 **Overwrite safeguards** — Prevents accidental data loss
-- ⚡ **Zero setup needed** — Just run and follow intuitive prompts
-- 🐍 **Pure Python** — No heavy dependencies or frameworks
+- 🖼️ **Beautiful terminal interface** with random ASCII art and anime quotes
+- 🔍 **Smart filtering** — Export only what you want, by status or title substring
+- 📊 **Collection stats** — Instantly see scores and breakdowns
+- 🛑 **Overwrite safeguards** — Never lose data by accident
+- ⚡ **Zero setup** — Just install Python and run
+- 🐍 **Pure Python** — No heavy dependencies, works everywhere
+- 📂 **Open-source** — No tracking, no ads, no nonsense
 
 ---
 
@@ -24,36 +30,22 @@ Effortlessly migrate your AniList anime and manga library to MyAnimeList (MAL) w
 ### Linux
 
 ```bash
-# 1. Install Python and Git
 sudo apt update
 sudo apt install python3 python3-pip git
-
-# 2. Clone the repository
 git clone https://github.com/itzraiyan/AniMal.git
 cd AniMal
-
-# 3. Install Python dependencies
-pip3 install colorama requests
-
-# 4. Run the tool
+pip3 install -r requirements.txt
 python3 main.py
 ```
 
 ### Android (Termux)
 
 ```bash
-# 1. Update packages and install requirements
 pkg update
 pkg install python git
-
-# 2. Clone the repository
 git clone https://github.com/itzraiyan/AniMal.git
 cd AniMal
-
-# 3. Install Python dependencies
-pip install colorama requests
-
-# 4. Run the tool
+pip install -r requirements.txt
 python main.py
 ```
 
@@ -62,67 +54,45 @@ python main.py
 1. [Download Python](https://www.python.org/downloads/)
 2. [Download Git](https://git-scm.com/download/win)
 3. Open Command Prompt or PowerShell:
-   ```bash
-   git clone https://github.com/itzraiyan/AniMal.git
-   cd AniMal
-   pip install colorama requests
-   python main.py
-   ```
+
+    ```bash
+    git clone https://github.com/itzraiyan/AniMal.git
+    cd AniMal
+    pip install -r requirements.txt
+    python main.py
+    ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start Guide
 
-1. **Launch the program:**
-   ```bash
-   python main.py
-   ```
+1. **Run the tool:**
+    ```bash
+    python main.py
+    ```
 
-2. **Enter your AniList username** when prompted:
-   ```
-   ┌─────────────────────────────────────────────────────┐
-   │ Enter AniList username (type '-help' for help)      │
-   └─────────────────────────────────────────────────────┘
-   > your_anilist_username
-   ```
+2. **Follow the on-screen prompts:**  
+   AniMal guides you step-by-step. You can type `-help` at any prompt for context help!
 
-3. **(Optional) Enter your MAL username** for improved XML compatibility:
-   ```
-   ┌─────────────────────────────────────────────────────┐
-   │ Enter your MyAnimeList (MAL) username (optional):   │
-   └─────────────────────────────────────────────────────┘
-   > your_mal_username
-   ```
+    - **Enter AniList username:**  
+      Your public AniList username (no password needed).
 
-4. **Select export type:**
-   ```
-   ┌─────────────────────────────────────────────────────┐
-   │ Export options:                                     │
-   │ 1: Anime only                                       │
-   │ 2: Manga only                                       │
-   │ 3: Both anime and manga                             │
-   └─────────────────────────────────────────────────────┘
-   > 3
-   ```
+    - **(Optional) Enter MAL username:**  
+      For the best compatibility when importing to MAL, enter your MAL username (or skip).
 
-5. **Apply filters (optional):**
-   ```
-   ┌─────────────────────────────────────────────────────┐
-   │ Filter by status? (y/N) [N]                         │
-   └─────────────────────────────────────────────────────┘
-   > y
+    - **Choose export type:**  
+      - 1: Anime only  
+      - 2: Manga only  
+      - 3: Both anime and manga (default)
 
-   ┌─────────────────────────────────────────────────────┐
-   │ Enter AniList status(es) (numbers/words)            │
-   └─────────────────────────────────────────────────────┘
-   > 1 3 5  # COMPLETED, DROPPED, PLANNING
-   ```
+    - **Filter by status?**  
+      Want only completed, dropped, or a custom selection? Type `y` and select from the grid shown. Or just press Enter for all.
 
-6. **Locate your XML files** in the `output/` directory:
-   ```
-   output/your_anilist_username_anime.xml
-   output/your_anilist_username_manga.xml
-   ```
+    - **Filter by title substring?**  
+      Want only entries with a certain word in the title? Enter `y` and specify the word.
+
+3. **Done!**  
+   Your exported XML files will appear in the `output/` directory, ready to import into MyAnimeList.
 
 ---
 
@@ -138,31 +108,32 @@ AniMal/
 │   ├── cli_helpers.py       # Colorful CLI interface
 │   └── io_helpers.py        # Output and file handling
 ├── config/                  # Config and constants
-│   └── constants.py         # API URLs, statuses, ASCII art
+│   └── constants.py         # API URLs, statuses, ASCII art, quotes
 ├── main.py                  # Entry point
+├── requirements.txt         # Python dependencies
 └── README.md                # This file
 ```
 
 ---
 
-## ❓ FAQ
+## 💡 Frequently Asked Questions
 
-**Why use AniMal?**  
-When switching from AniList to MAL (or vice versa), AniMal preserves your detailed library stats—no more manual re-entry!
+**Q: Do I need my AniList or MAL password?**  
+A: Nope! AniMal only needs your public usernames.
 
-**What does AniMal export?**
-- Titles (romaji, English, native)
-- Scores (1–10 scale)
-- Progress (episodes/chapters)
-- Status (watching, completed, on-hold, etc.)
-- Start/end dates
-- Personal notes
+**Q: Where are my exported files?**  
+A: In the `output/` folder, as XML files:  
+   - `your_anilist_username_anime.xml`  
+   - `your_anilist_username_manga.xml`
 
-**Is my AniList password needed?**  
-Never! AniMal only requires your public username.
+**Q: What does the export include?**  
+A: Titles, scores (1–10), progress (episodes/chapters), status, dates, and your personal notes.
 
-**Can I use AniMal on Windows?**  
-Absolutely! Just follow the [Windows instructions above](#windows).
+**Q: Can I use this on mobile or in Termux?**  
+A: Yes! AniMal is tested to work in Termux (Android), Linux, and Windows terminals.
+
+**Q: Something went wrong, how do I get help?**  
+A: Type `-help` at any prompt for instant guidance, or [open an issue](https://github.com/itzraiyan/AniMal/issues).
 
 ---
 
@@ -171,20 +142,23 @@ Absolutely! Just follow the [Windows instructions above](#windows).
 All contributions are welcome!  
 To get started:
 
-1. Fork this repository
-2. Create a new branch (`git checkout -b feature/your-feature`)
-3. Make your changes
-4. Commit (`git commit -m 'Describe your feature'`)
-5. Push your branch (`git push origin feature/your-feature`)
-6. Open a pull request
+1. **Fork** this repository
+2. **Create a branch:**  
+   `git checkout -b feature/your-feature`
+3. **Make your changes**
+4. **Commit:**  
+   `git commit -m 'Describe your feature'`
+5. **Push:**  
+   `git push origin feature/your-feature`
+6. **Open a Pull Request** on GitHub
 
 ---
 
 ## 📜 License
 
-Licensed under the MIT License. See [LICENSE](LICENSE) for details.
+AniMal is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
 **Happy exporting!** ✨  
-If you find AniMal helpful, please star the repository on [GitHub](https://github.com/itzraiyan/AniMal)!
+If AniMal helped you, please ⭐ star the repo and share with fellow anime/manga fans!
