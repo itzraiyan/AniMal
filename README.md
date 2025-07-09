@@ -2,7 +2,6 @@
 
 ![AniMal Banner](https://files.catbox.moe/o74pow.png)
 
-
 > **Note:** This project utilizes some AI-generated components, but the core idea, design, and structure are entirely crafted by the original author.
 
 ---
@@ -35,7 +34,6 @@ sudo apt install python3 python3-pip git
 git clone https://github.com/itzraiyan/AniMal.git
 cd AniMal
 pip3 install -r requirements.txt
-python3 main.py
 ```
 
 ### Android (Termux)
@@ -46,7 +44,6 @@ pkg install python git
 git clone https://github.com/itzraiyan/AniMal.git
 cd AniMal
 pip install -r requirements.txt
-python main.py
 ```
 
 ### Windows
@@ -59,17 +56,76 @@ python main.py
     git clone https://github.com/itzraiyan/AniMal.git
     cd AniMal
     pip install -r requirements.txt
-    python main.py
     ```
+
+---
+
+## ▶️ One-Command Run Setup
+
+You can set up AniMal so you can just type `AniMal` from anywhere in your terminal to launch the program—no need to type `python main.py` every time!
+
+### Linux
+
+**Step 1: Create a launcher script**
+```bash
+echo -e '#!/bin/bash\npython3 /full/path/to/AniMal/main.py "$@"' > ~/AniMal
+chmod +x ~/AniMal
+```
+*(Replace `/full/path/to/AniMal/main.py` with the absolute path. You can find it by running `pwd` inside the AniMal folder.)*
+
+**Step 2: Move it to a folder in your PATH**
+```bash
+sudo mv ~/AniMal /usr/local/bin/AniMal
+```
+
+Now, just type `AniMal` from any directory to run the tool!
+
+---
+
+### Android (Termux)
+
+**Step 1: Create a launcher script**
+```bash
+echo -e '#!/data/data/com.termux/files/usr/bin/bash\npython $HOME/AniMal/main.py "$@"' > $HOME/bin/AniMal
+chmod +x $HOME/bin/AniMal
+```
+*(Make sure `$HOME/bin` is in your PATH. If not, add this line to `~/.bashrc` or `~/.zshrc`: `export PATH=$HOME/bin:$PATH` and restart Termux.)*
+
+Now, just type `AniMal` in Termux to launch!
+
+---
+
+### Windows
+
+**Option 1: Using a batch file (recommended for beginners)**
+
+1. Open Notepad and paste:
+    ```
+    @echo off
+    python "%USERPROFILE%\AniMal\main.py" %*
+    ```
+    *(Adjust the path if you cloned AniMal elsewhere)*
+
+2. Save as `AniMal.bat` in a folder that's in your PATH (e.g., `C:\Windows` or add a folder like `C:\Users\YourName\bin` to your PATH).
+
+3. Now you can open Command Prompt and run:
+    ```
+    AniMal
+    ```
+
+**Option 2: Add Python scripts to PATH and create a shortcut**
+- You can create a shortcut to `python.exe` with the argument `"C:\Path\To\AniMal\main.py"` and place it on your Desktop or in a folder in your PATH.
 
 ---
 
 ## 🚀 Quick Start Guide
 
-1. **Run the tool:**
-    ```bash
-    python main.py
-    ```
+1. **Run the tool:**  
+   Open your terminal and type:
+   ```
+   AniMal
+   ```
+   *(Or `python main.py` if you haven't set up the one-click launcher)*
 
 2. **Follow the on-screen prompts:**  
    AniMal guides you step-by-step. You can type `-help` at any prompt for context help!
