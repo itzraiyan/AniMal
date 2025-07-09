@@ -1,7 +1,7 @@
 # main.py
 import os
 from utils.io_helpers import ensure_output_dir
-from utils.cli_helpers import print_banner, print_outro, print_info, print_success, prompt_boxed, boxed_text  # ADDED boxed_text here
+from utils.cli_helpers import print_banner, print_outro, print_info, print_success, prompt_boxed, boxed_text
 from utils.mal_id_fetcher import get_mal_id_from_username
 from core.fetcher import get_user_id, fetch_list
 from core.utils import HELP_TEXT, show_status_grid, get_status_codes, filter_entries, print_stats
@@ -35,7 +35,7 @@ def main():
     user_id = get_user_id(username)
     print_success(f"AniList user ID for {username} is {user_id}")
 
-    # FIXED: Call boxed_text directly instead of prompt_boxed.boxed_text
+    # Always show boxed export options before prompt, to avoid border confusion.
     print(boxed_text("Export options:\n1: Anime only\n2: Manga only\n3: Both anime and manga", "MAGENTA"))
     
     choice = None
@@ -49,9 +49,9 @@ def main():
 
     if prompt_boxed("Filter by status? (y/N)", default="N", color="YELLOW").lower() == "y":
         status_help = (
-            "You may select multiple statuses by number, word, or mix, separated by space or comma.\n"
-            "Example: 1 3 5 or COMPLETED,DROPPED\n\n"
-            + show_status_grid()
+            "Select one or more statuses (by number or code, space/comma separated):\n"
+            + show_status_grid(width=44)
+            + "\nExamples: 1 3 5   or   COMPLETED,DROPPED"
         )
         status_input = prompt_boxed(
             "Enter AniList status(es) (numbers/words, e.g. 1 3 or COMPLETED)",
@@ -70,6 +70,11 @@ def main():
         statuses = None
 
     if prompt_boxed("Filter by title substring? (y/N)", default="N", color="YELLOW").lower() == "y":
+        print(boxed_text(
+            "Enter a word or phrase. Only titles containing this substring will be exported.\n"
+            "Example: 'one piece' exports all entries with 'one piece' in the title.",
+            "YELLOW"
+        ))
         title_sub = prompt_boxed("Enter substring to match in title", color="YELLOW")
     else:
         title_sub = None
