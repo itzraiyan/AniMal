@@ -6,7 +6,7 @@
 
 ---
 
-AniMal is a friendly Python command-line tool that helps you export your AniList anime and manga library to MyAnimeList (MAL) XML files. It preserves your scores, progress, statuses, dates, and personal notes.
+AniMal is an advanced Python command-line tool that helps you export your AniList anime and manga library to MyAnimeList (MAL) XML files. It preserves your scores, progress, statuses, dates, and personal notes.
 
 Whether you're switching platforms, keeping a backup, or just want more control over your list, AniMal makes the process easy and transparent.
 
