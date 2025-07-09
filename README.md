@@ -6,7 +6,7 @@
 
 ---
 
-AniMal is a friendly Python command-line tool that helps you export your AniList anime and manga library to MyAnimeList (MAL) XML files. It preserves your scores, progress, statuses, dates, and personal notes for seamless importing to MAL.
+AniMal is a friendly Python command-line tool that helps you export your AniList anime and manga library to MyAnimeList (MAL) XML files. It preserves your scores, progress, statuses, dates, and personal notes.
 
 Whether you're switching platforms, keeping a backup, or just want more control over your list, AniMal makes the process easy and transparent.
 
@@ -21,6 +21,7 @@ Whether you're switching platforms, keeping a backup, or just want more control 
 * ⚡ **Zero setup** — Just install Python and run
 * 🐍 **Pure Python** — No heavy dependencies, works everywhere
 * 📂 **Open-source** — No tracking, no ads, no nonsense
+* 🔒 **Private AniList support** — Export private entries securely with AniList OAuth
 
 ---
 
@@ -127,13 +128,32 @@ source ~/.bashrc
    AniMal guides you step-by-step. You can type `-help` at any prompt for context help!
 
    * **Enter AniList username:**
-     Your public AniList username (no password needed).
+     Your AniList username (see your AniList profile page for your username).
 
-   * **(Optional) Enter MAL username:**
-     For the best compatibility when importing to MAL, enter your MAL username (or skip).
+   * **Want to include private AniList entries?**
+     If you want to include private entries, you'll be guided through AniList's OAuth process:
+
+     1. **Create an AniList Application:**
+        - Go to [AniList Developer Settings](https://anilist.co/settings/developer)
+        - Click "Create New Client"
+        - Name it (e.g., AniMal Exporter) and set the redirect URL to `https://localhost/` or any URL you like.
+        - After creating, copy your Client ID and Client Secret.
+
+     2. **Authorize AniMal:**
+        - AniMal will show you an authorization URL to visit in your browser.
+        - Log in to AniList, approve the permissions, and you'll be redirected (the URL will contain `?code=...`).
+        - Copy the full redirected URL and paste it into AniMal.
+
+     3. **Token is handled for you:**
+        - AniMal extracts the token and uses it automatically.
+        - You can now export both public and private entries.
+
+     *(If you skip this step, only public entries will be exported.)*
+
+   * **Enter MAL username (optional):**
+     For best compatibility when importing to MAL, enter your MAL username (or skip).
 
    * **Choose export type:**
-
      * 1: Anime only
      * 2: Manga only
      * 3: Both anime and manga (default)
@@ -172,7 +192,7 @@ AniMal/
 ## 💡 Frequently Asked Questions
 
 **Q: Do I need my AniList or MAL password?**
-A: Nope! AniMal only needs your public usernames.
+A: **Never!** AniMal will *never* ask for your password. To access private entries, you authorize using AniList's official OAuth process (ID, secret, and browser-based approval).
 
 **Q: Where are my exported files?**
 A: In the `output/` folder, as XML files:
@@ -188,6 +208,37 @@ A: Yes! AniMal is tested to work in Termux (Android), Linux, and Windows termina
 
 **Q: Something went wrong, how do I get help?**
 A: Type `-help` at any prompt for instant guidance, or [open an issue](https://github.com/itzraiyan/AniMal/issues).
+
+---
+
+## 📦 Understanding the Generated XML Files
+
+AniMal generates XML files that are **fully compatible with MyAnimeList (MAL)**. These files are rich, detailed, and advanced, containing everything MAL expects for a smooth import. Here’s what you get:
+
+- **User Block (`myinfo`):**
+  - Your username and user ID (if MAL username provided)
+  - Export type (anime or manga)
+  - Total count of entries and advanced stats (completed, watching/reading, on-hold, dropped, plan to watch/read, etc.)
+
+- **Entry Blocks (`anime` or `manga`):**
+  - **IDs:** Both AniList and MAL database IDs when available
+  - **Title:** Full romanized title (with support for special characters)
+  - **Episodes/Chapters/Volumes:** All progress recorded
+  - **Status:** Accurate mapping from AniList (including "repeating", "paused", etc.)
+  - **Dates:** Start and finish dates (in proper MAL format)
+  - **Scores:** 1–10 scale, supports decimal and integer scores
+  - **Notes/Comments:** Any notes you’ve attached on AniList are preserved
+  - **Tags:** (if available)
+  - **Rewatch/Re-read status:** Progress and flags
+  - **Privacy:** Both public and private entries (if you used OAuth)
+
+- **Advanced Features:**
+  - All fields are mapped intelligently so MAL can import them without errors.
+  - Handles edge cases like missing values, partial progress, unknown titles, and more.
+  - Output is **standards-compliant XML**—no hacks, no missing data, no broken imports.
+
+**Why is this awesome?**  
+AniMal’s export is not a basic list dump: it’s a complete, detailed, and robust migration tool. Whether you’re a power user with tons of custom notes, a casual with only partial lists, or someone with lots of private entries—everything is exported, safely and accurately.
 
 ---
 
@@ -214,5 +265,5 @@ AniMal is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-**Happy exporting!** ✨
+**Happy exporting!** ✨  
 If AniMal helped you, please ⭐ star the repo and share with fellow anime/manga fans!
