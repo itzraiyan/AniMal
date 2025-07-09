@@ -4,14 +4,17 @@ import sys
 from config import constants
 from utils.cli_helpers import print_error, print_success
 
-def get_user_id(username):
+def get_user_id(username, token=None):
     query = '''
     query ($name: String) {
         User(search: $name) { id }
     }
     '''
     variables = {'name': username}
-    resp = requests.post(constants.ANILIST_API, json={'query': query, 'variables': variables})
+    headers = {}
+    if token:
+        headers['Authorization'] = f'Bearer {token}'
+    resp = requests.post(constants.ANILIST_API, json={'query': query, 'variables': variables}, headers=headers)
     if resp.status_code == 200:
         data = resp.json()
         uid = data.get('data', {}).get('User', {}).get('id')
@@ -20,7 +23,7 @@ def get_user_id(username):
     print_error(f"Unable to find AniList user '{username}'.")
     sys.exit(1)
 
-def fetch_list(user_id, media_type):
+def fetch_list(user_id, media_type, token=None):
     query = '''
     query ($userId: Int, $type: MediaType) {
         MediaListCollection(userId: $userId, type: $type) {
@@ -48,7 +51,10 @@ def fetch_list(user_id, media_type):
     }
     '''
     variables = {'userId': user_id, 'type': media_type}
-    resp = requests.post(constants.ANILIST_API, json={'query': query, 'variables': variables})
+    headers = {}
+    if token:
+        headers['Authorization'] = f'Bearer {token}'
+    resp = requests.post(constants.ANILIST_API, json={'query': query, 'variables': variables}, headers=headers)
     if resp.status_code == 200:
         data = resp.json()
         lists = data["data"]["MediaListCollection"]["lists"]
