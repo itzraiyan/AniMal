@@ -66,11 +66,11 @@ HELP_TEXT = (
     "   - 2: Manga only\n"
     "   - 3: Both anime and manga\n"
     "4. Filters (optional):\n"
-    "   • By **status**: You may enter one or more status numbers or codes (e.g. 1 3 or COMPLETED,DROPPED).\n"
+    "   • By status: You may enter one or more status numbers or codes (e.g. 1 3 or COMPLETED,DROPPED).\n"
     "     Status codes:"
     + show_status_grid(width=44) +
     "     (Multiple allowed, separated by space or comma.)\n"
-    "   • By **title substring**: Enter any word/phrase to only export entries whose titles contain it (case-insensitive).\n"
+    "   • By title substring: Enter any word/phrase to only export entries whose titles contain it (case-insensitive).\n"
     "     Example: 'naruto' => Only titles with 'naruto'.\n"
     "5. Exported files are saved to the ./output/ directory.\n"
     "For best results, use in a terminal at least 45 characters wide.\n"
