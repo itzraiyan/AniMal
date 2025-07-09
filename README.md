@@ -211,6 +211,28 @@ A: Type `-help` at any prompt for instant guidance, or [open an issue](https://g
 
 ---
 
+## 📥 How to Import Your XML Files
+
+### Importing to MyAnimeList (MAL)
+
+1. Go to [MAL's Import Page](https://myanimelist.net/import.php)
+2. Click **Choose import type** and select **MyAnimeList Import**.
+3. Click **Choose File** and select your exported XML file (e.g., `your_anilist_username_anime.xml`).
+4. Repeat the process for your manga file if you exported both anime and manga lists.
+5. Wait for the import to finish—your list will be updated!
+
+---
+
+### Importing to AniList
+
+1. Go to [AniList List Import](https://anilist.co/settings/import)
+2. Click and drag your exported XML file into the upload area, or click to select the file.
+3. Wait for AniList to process your import.
+4. After it completes, you can review your imported anime/manga list.
+5. Repeat for your manga or anime file as needed.
+
+---
+
 ## 📦 Understanding the Generated XML Files
 
 AniMal generates XML files that are **fully compatible with MyAnimeList (MAL)**. These files are rich, detailed, and advanced, containing everything MAL expects for a smooth import. Here’s what you get:
