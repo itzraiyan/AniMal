@@ -18,12 +18,13 @@ STATUS_LIST = [
 # ASCII Art
 ASCII_BANNERS = [
     r"""
-    ╔═══╗──────╔═╗╔═╗──╔╗
-    ║╔═╗║──────║║╚╝║║──║║
-    ║║─║╠═╗╔╗──║╔╗╔╗╠══╣║
-    ║╚═╝║╔╗╬╬══╣║║║║║╔╗║║
-    ║╔═╗║║║║╠══╣║║║║║╔╗║╚╗
-    ╚╝─╚╩╝╚╩╝──╚╝╚╝╚╩╝╚╩═╝
+	██      ▄   ▄█ █▀▄▀█ ██   █     
+	█ █      █  ██ █ █ █ █ █  █     
+	█▄▄█ ██   █ ██ █ ▄ █ █▄▄█ █     
+	█  █ █ █  █ ▐█ █   █ █  █ ███▄  
+	   █ █  █ █  ▐    █     █     ▀ 
+	  █  █   ██      ▀     █        
+	 ▀                    ▀
     """,
     r"""
     ░█▀▀█ █▀▀▄ ░▀░ ░░ ▒█▀▄▀█ █▀▀█ █░░ 
@@ -51,15 +52,15 @@ ASCII_BANNERS = [
     ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝
     """,
     r"""
-    ▄▄▄      ███▄ ▄███▓ ██▓ ███▄    █  ▄▄▄       ██▓    
-    ▒████▄   ▓██▒▀█▀ ██▒▓██▒ ██ ▀█   █ ▒████▄    ▓██▒    
-    ▒██  ▀█▄ ▓██    ▓██░▒██▒▓██  ▀█ ██▒▒██  ▀█▄  ▒██░    
-    ░██▄▄▄▄██▒██    ▒██ ░██░▓██▒  ▐▌██▒░██▄▄▄▄██ ▒██░    
-     ▓█   ▓██▒██▒   ░██▒░██░▒██░   ▓██░ ▓█   ▓██▒░██████▒
-     ▒▒   ▓▒█░ ▒░   ░  ░░▓  ░ ▒░   ▒ ▒  ▒▒   ▓▒█░░ ▒░▓  ░
-      ▒   ▒▒ ░  ░      ░ ▒ ░░ ░░   ░ ▒░  ▒   ▒▒ ░░ ░ ▒  ░
-      ░   ▒  ░      ░    ▒ ░   ░   ░ ░   ░   ▒     ░ ░   
-          ░  ░      ░    ░           ░       ░  ░    ░  ░
+	▄▄▄       ███▄    █  ██▓ ███▄ ▄███▓ ▄▄▄       ██▓    
+	▒████▄     ██ ▀█   █ ▓██▒▓██▒▀█▀ ██▒▒████▄    ▓██▒    
+	▒██  ▀█▄  ▓██  ▀█ ██▒▒██▒▓██    ▓██░▒██  ▀█▄  ▒██░    
+	░██▄▄▄▄██ ▓██▒  ▐▌██▒░██░▒██    ▒██ ░██▄▄▄▄██ ▒██░    
+	 ▓█   ▓██▒▒██░   ▓██░░██░▒██▒   ░██▒ ▓█   ▓██▒░██████▒
+	 ▒▒   ▓▒█░░ ▒░   ▒ ▒ ░▓  ░ ▒░   ░  ░ ▒▒   ▓▒█░░ ▒░▓  ░
+	  ▒   ▒▒ ░░ ░░   ░ ▒░ ▒ ░░  ░      ░  ▒   ▒▒ ░░ ░ ▒  ░
+	  ░   ▒      ░   ░ ░  ▒ ░░      ░     ░   ▒     ░ ░   
+	      ░  ░         ░  ░         ░         ░  ░    ░  ░
     """
 ]
 
@@ -85,7 +86,6 @@ QUOTES = [
     "“The world is full of pain and suffering. But there is also hope, and beauty. You just have to look for it.” – Violet Evergarden",
     "“Humans are weak creatures. That’s why we cling to each other. That’s why we help each other.” – Takashi Komuro (Highschool of the Dead)",
     "“A lesson you learn from getting hurt is not something you can learn from being protected.” – Kurisu Makise (Steins;Gate)",
-    # NEW QUOTES ADDED BELOW
     "“If you don’t take risks, you can’t create a future!” – Monkey D. Luffy (One Piece)",
     "“You need to accept the fact that you’re not the best and have all the will to strive to be better than anyone you face.” – Roronoa Zoro (One Piece)",
     "“When you hit the point of no return, that’s the moment it truly becomes a journey.” – Hinata Shoyo (Haikyuu!!)",
